@@ -14,7 +14,7 @@ public class starter {
 				System.out.print("\n\nRock(1), Paper(2), Scissors(3): ");
 				int inp = sc.nextInt();
 				int opponent = (int)(Math.random()*3) + 1;
-				System.out.print("You: "+ evaluate(inp) + "- Opponent: " + evaluate(opponent));
+				System.out.print("You: "+ evaluate(inp) + "   Opponent: " + evaluate(opponent));
 				
 				if(inp == 1 && opponent == 3){
 					you++;
@@ -38,8 +38,9 @@ public class starter {
 				
 			}
 			
+			String winPhrase = "You Win, Try that again\n", losePhrase = "You lose\n";
 			System.out.println("\n\nScore: you=" + you + ", opponent=" + opp);
-			String result = (you > opp) ? "You win!\n" : "You lose... get good\n";
+			String result = (you > opp) ? winPhrase : losePhrase;
 			System.out.println(result);
 
 			System.out.print("Enter c to continue or anything else to quit: ");
