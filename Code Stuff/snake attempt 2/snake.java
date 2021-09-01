@@ -3,9 +3,8 @@ import java.util.ArrayList;
 public class snake{
 	
 	private int x, y, wid, hei;
-	private ArrayList<Rectangle> apple;
-	private ArrayList<Rectangle> body;
-	private boolean[] direction = new boolean[4];
+	private Rectangle apple, leaf;
+	public ArrayList<Rectangle> body;
 	private ArrayList<Integer> speedX, speedY;
 	
 	public snake(int startX, int startY, int width, int height){
@@ -16,10 +15,14 @@ public class snake{
 		body = new ArrayList<Rectangle>();
 		body.add(new Rectangle(x, y, width, height));
 		color(0);
-		apple = new ArrayList<Rectangle>();
-		apple.add(new Rectangle((int)(Math.random()*500), (int)(Math.random()*500), wid, hei));
-		apple.get(0).setColor(Color.RED);
-		apple.get(0).draw();
+		apple = new Rectangle(30*(int)(Math.random()*20), 30*(int)(Math.random()*20), wid, hei);
+		apple.setColor(Color.RED);
+		apple.fill();
+		
+		leaf = new Rectangle(apple.getX()+10, apple.getY(), 10, 10);
+		leaf.setColor(Color.GREEN);
+		leaf.fill();
+		
 		speedX = new ArrayList<Integer>();
 		speedY = new ArrayList<Integer>();
 	}
@@ -30,9 +33,7 @@ public class snake{
 	}
 	
 	public void grow(boolean up, boolean down, boolean left, boolean right){
-		if(body.get(0).contains(apple.get(apple.size()-1))){
-			apple.get(apple.size()-1).translate(600, 0);
-			apple.set(apple.size()-1, null);
+		if(body.get(0).contains(apple)){
 			System.out.println("hit");
 			if(down == false && up == true){
 				System.out.println("up");
@@ -52,9 +53,25 @@ public class snake{
 			}
 			color(body.size()-1);
 			
-			apple.add(new Rectangle((int)(Math.random()*500), (int)(Math.random()*500), wid, hei));
-			apple.get(apple.size()-1).setColor(Color.RED);
-			apple.get(apple.size()-1).draw();
+			int appleMoveX = (int)(30*Math.random()*8), appleMoveY = (int)(30*Math.random()*8);
+			if(apple.getX() > 400)
+				appleMoveX = (int)(30*Math.random()*-15);
+			else if(apple.getX() < 100)
+				appleMoveX = (int)(30*Math.random()*15);
+			else if(apple.getY() > 400)
+				appleMoveY = (int)(30*Math.random()*-15);
+			else if(apple.getY() < 100)
+				appleMoveY = (int)(30*Math.random()*15);
+			else{
+				int upOrDown = (int)(Math.random()*1);
+				if(upOrDown == 1){
+					appleMoveX *= -1;
+					appleMoveY *= -1;
+				}
+			}
+			apple.translate(appleMoveX, appleMoveY);
+			leaf.translate(appleMoveX, appleMoveY);
+			
 		}
 	}
 	
@@ -64,6 +81,8 @@ public class snake{
 			
 			if(i == 0)
 				body.get(0).translate(moveX, moveY);
+			x += moveX;
+			y += moveY;
 			//else
 				//body.get(i).translate(speedX.get(speedX.size()-i), speedY.get(speedY.size()-i));
 			
@@ -81,12 +100,24 @@ public class snake{
 		body.get(i).fill();
 	}
 	
+	public void moveChosen(int index, int fredisweird, int y){
+		body.get(index).translate(fredisweird, y);
+	}
+	
 	public int getX(){
 		return x;
 	}
 	
 	public int getY(){
 		return y;
+	}
+	
+	public int getWidth(){
+		return wid;
+	}
+	
+	public int getHeight(){
+		return hei;
 	}
 	
 }
