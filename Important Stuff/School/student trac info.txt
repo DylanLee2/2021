@@ -1,0 +1,13 @@
+email: dlee1159@stu.gusd.net
+
+user: dylanlee
+
+pw: publicstaticv0idmaiN
+
+Security Questions:
+
+#1 What is the first sport you learned to play
+A: soccer
+
+#2 In what city or town did your mother and father meet
+A: LA
