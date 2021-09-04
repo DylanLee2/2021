@@ -1,0 +1,40 @@
+    for p in pizzas:
+        cost+=13.0
+        for i in p:
+            if("pepperoni" in p):
+                cost += 1.00
+            elif("mushroom" in p):
+                cost += 0.50
+            elif("olive" in p):
+                cost += 0.50
+            elif("anchovy" in p):
+                cost += 2.00
+            elif("ham" in p):
+                cost += 1.50
+        cost = cost + (cost*0.0625) 
+        
+    print(cost) 
+    for w in wings:
+        if(w == 10):
+            cost += 5.00
+        elif(w == 20):
+            cost += 9.00
+        elif(w == 40):
+              cost += 17.50
+        elif(w == 100):
+            cost += 48.00
+        cost = cost + (cost*0.0625)  
+        
+    print(cost)     
+    for d in drinks:
+        if("small" in d):
+            cost += 2.00
+        elif("medium" in d):
+            cost += 3.00
+        elif("large" in d):
+            cost += 3.50
+        elif("tub" in d):
+            cost += 3.75
+        cost = cost + (cost*0.0625)
+    print(cost)
+    cost = cost + (cost*(coupon-0.0625))
