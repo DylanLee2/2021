@@ -2,15 +2,17 @@ import pkg.*;
 import java.util.ArrayList;
 public class starter implements InputKeyControl {
 	
-	public static int moveX, moveY, speed = 2;
+	public static int moveX = 2, moveY = 0, speed = 2;
 	public static snake sna;
-	public static String inp;
+	public static String inp = "d";
 	public static boolean[] direction = new boolean[4]; // 0=w, 1=a, 2=s, 3=d
 	public static point turn = new point(60, 60);
 	
 	public static void main(String args[]){
       KeyController kC = new KeyController(Canvas.getInstance(),new starter());
 		
+		
+
 		Text t = new Text(800, 300, "Use windowed mode to play");
 		t.grow(150, 30);
 		t.draw();
@@ -34,6 +36,7 @@ public class starter implements InputKeyControl {
 			direction[i] = true;
 		
 		sna = new snake(60, 60, 30, 30);
+		sna.addSpeed(2, 0);
 		while(sna.getX()<571 && sna.getX()>29 && sna.getY()<571 && sna.getY()>39){
 			Canvas.pause(10);
 			sna.move(moveX, moveY, turn);
@@ -41,12 +44,13 @@ public class starter implements InputKeyControl {
 		}
     }
     
+	//make snake turn at the "rounded" point rather than translating to the point
 	public void keyPress(String s){
 		//moveX = inp.equals("w") ? 0 : inp.equals("a") ? -1*speed : inp.equals("s") ? 0 : inp.equals("d") ? speed : moveX;
 		//moveY = inp.equals("w") ? -1*speed : inp.equals("a") ? 0 : inp.equals("s") ? speed : inp.equals("d") ? 0 : moveY;
 		if(!s.equals(inp)){
-			turn = new point(sna.getX(), sna.getY());
-			sna.addSpeed(sna.xSpeed.get(xSpeed.size()-1), sna.ySpeed.get(ySpeed.size()-1));
+			turn = new point(sna.body.get(0).getX(), sna.body.get(0).getY());
+			sna.addSpeed(sna.xSpeed.get(sna.xSpeed.size()-1), sna.ySpeed.get(sna.ySpeed.size()-1));
 		}
 		inp = s;
 		int alignMoveY = (((int)sna.body.get(0).getX())%30)-30;
@@ -58,7 +62,7 @@ public class starter implements InputKeyControl {
 				sna.moveChosen(i, -alignMoveY, 0);
 			}
 			for(int i = 0; i < direction.length; i++)
-				direction[i] = (i!=2 && i!=0) ? true : false;
+				direction[i] = (i!=2) ? true : false;
 		}
 		else if(s.equals("a") && direction[1] == true){
 			moveX = -1*speed;
@@ -66,7 +70,7 @@ public class starter implements InputKeyControl {
 			for(int i = 0; i < sna.body.size(); i++)
 				sna.moveChosen(i, 0, -alignMoveX);
 			for(int i = 0; i < direction.length; i++)
-				direction[i] = (i!=3 && i!=1) ? true : false;
+				direction[i] = (i!=3) ? true : false;
 		}
 		else if(s.equals("s") && direction[2] == true){
 			moveX = 0;
@@ -74,7 +78,7 @@ public class starter implements InputKeyControl {
 			for(int i = 0; i < sna.body.size(); i++)
 				sna.moveChosen(i, -alignMoveY, 0);
 			for(int i = 0; i < direction.length; i++)
-				direction[i] = (i!=0 && i!=2) ? true : false;
+				direction[i] = (i!=0) ? true : false;
 		}
 		else if(s.equals("d") && direction[3] == true){
 			moveX = speed;
@@ -82,10 +86,10 @@ public class starter implements InputKeyControl {
 			for(int i = 0; i < sna.body.size(); i++)
 				sna.moveChosen(i, 0, -alignMoveX);
 			for(int i = 0; i < direction.length; i++)
-				direction[i] = (i!=1 && i!=3) ? true : false;
+				direction[i] = (i!=1) ? true : false;
 		}
-		sna.xSpeed = moveX;
-		sna.ySpeed = moveY;
+		sna.xSpeed.add(moveX);
+		sna.ySpeed.add(moveY);
 	}
 	
 }

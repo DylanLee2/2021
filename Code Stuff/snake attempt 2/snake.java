@@ -5,8 +5,8 @@ public class snake{
 	public int x, y, wid, hei;
 	private Rectangle apple, leaf;
 	public ArrayList<Rectangle> body;
-	public ArrayList<Integer> xSpeed;
-	public ArrayList<Integer> ySpeed;
+	public ArrayList<Integer> xSpeed = new ArrayList<Integer>();
+	public ArrayList<Integer> ySpeed = new ArrayList<Integer>();
 	
 	public snake(int startX, int startY, int width, int height){
 		x = startX;
@@ -25,37 +25,42 @@ public class snake{
 		leaf.fill();
 	}
 	
-	public void grow(boolean up, boolean down, boolean left, boolean right){
+	public void grow(boolean up, boolean left, boolean down, boolean right){
 		if(body.get(0).contains(apple)){
+			//body.add(new Rectangle(, , wid, hei))
 			System.out.println("hit");
-			if(down == false && up == true){
+			System.out.println("up: " + up);
+			System.out.println("left: " + left);
+			System.out.println("down: " + down);
+			System.out.println("right: " + right);
+			if(up == true && down == false){
 				System.out.println("up");
 				body.add(new Rectangle(body.get(body.size()-1).getX(), body.get(body.size()-1).getY() + hei,  wid, hei));
-			}
-			else if(down == true && up == false){
-				System.out.println("down");
-				body.add(new Rectangle(body.get(body.size()-1).getX(), body.get(body.size()-1).getY() - hei,  wid, hei));
 			}
 			else if(left == true && right == false){
 				System.out.println("left");
 				body.add(new Rectangle(body.get(body.size()-1).getX() + wid, body.get(body.size()-1).getY(),  wid, hei));
 			}
-
+			else if(down == true && up == false){
+				System.out.println("down");
+				body.add(new Rectangle(body.get(body.size()-1).getX(), body.get(body.size()-1).getY() - hei,  wid, hei));
+			}
 			else if(right == true && left == false){
 				System.out.println("right");
 				body.add(new Rectangle(body.get(body.size()-1).getX() - wid, body.get(body.size()-1).getY(),  wid, hei));
 			}
+			
 			color(body.size()-1);
 			
 			int appleMoveX = (int)(Math.random()*6)*30, appleMoveY = (int)(Math.random()*8)*30;
 			if(apple.getX() > 400)
-				appleMoveX = (int)(Math.random()*-13)*30;
+				appleMoveX = (int)(Math.random()*-8)*30;
 			else if(apple.getX() < 100)
-				appleMoveX = (int)(Math.random()*13)*30;
+				appleMoveX = (int)(Math.random()*8)*30;
 			else if(apple.getY() > 400)
-				appleMoveY = (int)(Math.random()*-13)*30;
+				appleMoveY = (int)(Math.random()*-8)*30;
 			else if(apple.getY() < 100)
-				appleMoveY = (int)(Math.random()*-13)*30;
+				appleMoveY = (int)(Math.random()*-8)*30;
 			else{
 				int upOrDown = (int)(Math.random()*1);
 				if(upOrDown == 1){
@@ -81,7 +86,7 @@ public class snake{
 			if(i==0)
 				body.get(0).translate(moveX, moveY);
 			else if(body.get(i).getX() == p.x && body.get(i).getY() == p.y)
-				body.get(i).translate(xSpeed, ySpeed);
+				body.get(i).translate(xSpeed.get(0), ySpeed.get(0));
 			else
 				body.get(i).translate(moveX, moveY);
 			
