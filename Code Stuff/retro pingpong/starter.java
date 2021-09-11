@@ -4,8 +4,8 @@ import pkg.*;
 public class starter implements InputKeyControl {
 	//first to 7 wins
 	public static Rectangle[] players = new Rectangle[2];
-	public static int leftScore = 0, rightScore = 0, speed = 2, speed1 = 0, speed2 = 0;
-
+	public static int leftScore = 0, rightScore = 0, speed = 3, speed1 = 0, speed2 = 0;
+	public static boolean game = true;
 	public static void main(String args[]) {
 		KeyController kC = new KeyController(Canvas.getInstance(),new starter());
 		
@@ -32,8 +32,8 @@ public class starter implements InputKeyControl {
 		Line middle = new Line(300,0,300,600); //middle line to split the screen
 		middle.draw();
 
-		ball b = new ball(3);
-		while(true){
+		ball b = new ball(1);
+		while(game){
 			Canvas.pause(5);
 			if(speed1 < 0 && players[0].getY() < 90)
 					speed1 = 0;
@@ -46,6 +46,29 @@ public class starter implements InputKeyControl {
 			players[0].translate(0,speed1);
 			players[1].translate(0,speed2);
 			b.move();
+			b.hit(players, borders);
+			leftScore = b.scoreLeft(leftScore);
+			rightScore = b.scoreRight(rightScore);
+
+			//under this line, update text for scores (ints update but text doesnt)
+			for(int i = 0; i < b.balls.size(); i++){
+				if(b.left.get(i)){
+					scores[0].translate(800,0);
+					scores[0] = null;
+					scores[0] = new Text(230,50,leftScore+"");
+					scores[0].grow(40,40);
+					scores[0].draw();
+					b.left.set(i, false);
+				}
+				if(b.right.get(i)){
+					scores[1].translate(800,0);
+					scores[1] = null;
+					scores[1] = new Text(360,50,rightScore+"");
+					scores[1].grow(40,40);
+					scores[1].draw();
+					b.right.set(i, false);
+				}
+			}
 		}
 		
 	}
