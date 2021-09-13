@@ -157,4 +157,13 @@ public class Rectangle implements Shape
 		}
 		return false;
 	}
+
+    public boolean contains(Ellipse a)
+	{
+		if(x < a.getX() + a.getWidth() && x + width > a.getX() && y < a.getY() + a.getHeight() && y + height > a.getY())
+		{ 
+			return true;
+		}
+		return false;
+	}
 }
