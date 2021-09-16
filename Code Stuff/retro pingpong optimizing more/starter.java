@@ -6,7 +6,7 @@ public class starter implements InputKeyControl {
 	//first to 7 wins
 	public static Rectangle[] players = new Rectangle[2];
 	public static int[] numScores = new int[2]; // numScores[0] is left side's score, numScores[1] is right side's score
-	public static int speed = 3, speed1 = 0, speed2 = 0, totalBalls = 5;
+	public static int speed = 3, speed1 = 0, speed2 = 0, totalBalls = 7; // <- totalBalls is total-1
 	public static boolean game = true, play = true;
 	public static Text restartGame, winner;
 
@@ -49,14 +49,10 @@ public class starter implements InputKeyControl {
 			ball b = new ball(totalBalls);
 			while(game){
 				Canvas.pause(5);
-				/*
-				if((speed1 < 0 && players[0].getY() < 90) || (speed1 > 0 && players[0].getY() > 410))
-						speed1 = 0;
-				if((speed2 < 0 && players[1].getY() < 90) || (speed2 > 0 && players[1].getY() > 410))
-						speed2 = 0;
-				*/
+
 				speed1 = ((speed1 < 0 && players[0].getY() < 90) || (speed1 > 0 && players[0].getY() > 410)) ? 0 : speed1;
 				speed2 = ((speed2 < 0 && players[1].getY() < 90) || (speed2 > 0 && players[1].getY() > 410)) ? 0 : speed2;
+
 				players[0].translate(0,speed1);
 				players[1].translate(0,speed2);
 				b.moveOnTurn();
@@ -64,13 +60,13 @@ public class starter implements InputKeyControl {
 				numScores = b.score(numScores);
 
 				for(int i = 0; i < b.balls.length; i++){ // updates the score
-					if(b.left[i]){
+					if(b.leftOrRight[i]){
 						scores[0].setText(numScores[0]+"");
-						b.left[i] = false;
+						b.leftOrRight[i] = false;
 					}
-					if(b.right[i]){
+					if(b.leftOrRight[i+b.balls.length]){
 						scores[1].setText(numScores[1]+"");
-						b.right[i] = false;
+						b.leftOrRight[i] = false;
 					}
 				}
 
