@@ -71,7 +71,7 @@ public class ball{
 	public void hit(Rectangle[] players, Rectangle[] borders){
 		for(int i = 0; i < balls.length; i++){
 			//changes speed depending on the direction of the surface
-			if((ballSpeeds[i]>0 && players[1].contains(balls[i]) && balls[i].getX() < 571) || (ballSpeeds[i]<0 && players[0].contains(balls[i]) && balls[i].getX() > 29))
+			if((ballSpeeds[i]>0 && players[1].contains(balls[i])) || (ballSpeeds[i]<0 && players[0].contains(balls[i])))
 				ballSpeeds[i] *= -1.1; // speed multiplyer each time a player hits the ball
 			else if(borders[0].contains(balls[i]) || borders[1].contains(balls[i]))
 				ballSpeeds[i+balls.length] *= -1;
