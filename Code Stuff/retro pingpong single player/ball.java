@@ -7,7 +7,7 @@ public class ball{
 	public double[] ballSpeeds; // 0 through balls.length-1 is X speed. balls.length through balls.length*2 is Y speed
 	public boolean[] leftOrRight; // same logic applies to left and right ^
 	public int[] active, turn;
-	public double ballSpeed = 1;
+	public double ballSpeed = 1.1;
 	public int ballTurn = 0;
 	
 	public ball(int amount){
