@@ -100,6 +100,10 @@ public class Rectangle implements Shape
         Canvas.getInstance().repaint();
     }
 
+    public Color getColor(){
+        return color;
+    }
+
     /**
        Sets the color of this rectangle.
        @param newColor the new color
