@@ -1,9 +1,5 @@
 //Dylan Lee 9/30/21
 import pkg.*;
-import java.util.ArrayList;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 //Canvas is 450 x 650
 
@@ -39,13 +35,12 @@ public class starter implements InputControl, InputKeyControl {
 				platformer.timer++;
 
 			}
+			alive = false;
 
 			// make code below into a method (include imports to class file too)
 
-			char backSpaceKey = (char)8;
-			String backSpaceKeyString = backSpaceKey+"";
-			char enterKey = (char)10;
-			String enterKeyString = enterKey+"";
+			String backSpaceKeyString = (char)8+"";
+			String enterKeyString = (char)10+"";
 			Text displayName = new Text(200,300,"Enter username: ");
 			displayName.grow(20,20);
 			displayName.draw();
@@ -63,30 +58,17 @@ public class starter implements InputControl, InputKeyControl {
 				displayName.setText(playerName);
 			}
 			//System.out.println("loop broken :)"); // for debugging
+
+			displayName.translate(-500,0);
 			playerName = playerName.substring(0,playerName.length()-1); // last char is enter which messes up txt file
-
-			//note: the only thing the try catches do is catch runtime errors,
-			//but if the file exists and is okay you don't really need them
-
-			//write to file:
-			try{
-				FileWriter myFileWriter = new FileWriter("scores.txt",true);//the true prevents it from overwriting information
-				myFileWriter.write(playerName + ": " + platformer.numScore + "\n");
-				myFileWriter.close();
-			}
-			catch(IOException e){
-				e.printStackTrace();
-			}
-			//read from file:
-			EasyReader fileReader = new EasyReader("scores.txt");
-			String data = "";
-			while(!fileReader.eof())
-				data+=fileReader.readLine();
-
-			
+			String data = platformer.recordScore("score.txt", playerName, platformer.numScore);
+			Text leaderboard = new Text(225,300,data);
+			leaderboard.grow(50,20);
+			leaderboard.draw();
 
 			// show high score if possible when game ends
 			Text restartGame = new Text(225,200,"Press R to restart");
+			restartGame.setColor(Color.RED);
 			restartGame.grow(150,35);
 			restartGame.draw();
 
@@ -112,18 +94,21 @@ public class starter implements InputControl, InputKeyControl {
 		
 	}
 
-	public void onMouseClick(double x, double y) {
-
-	}
-
 	public void keyPress(String s) {
 		input = s;
-		if((s.equals("w")) && (platformer.getPlayer().getY() > 200) && alive)
+		if((s.equals("w")) && (platformer.getPlayer().getY() > 200) && alive) // for testing mechanics (maybe make it a part of game?)
 			platformer.jump();
+		/*
 		else if(s.equals("a") && alive)
 			platformer.horizontalSpeed = -horizSpeed;
 		else if(s.equals("d") && alive)
 			platformer.horizontalSpeed = horizSpeed;
+		*/
+		platformer.horizontalSpeed = (s.equals("a") && alive) ? -horizSpeed : (s.equals("d") && alive) ? horizSpeed : platformer.horizontalSpeed;
+	}
+
+	public void onMouseClick(double x, double y) {
+
 	}
 
 }

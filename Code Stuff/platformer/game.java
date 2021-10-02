@@ -2,12 +2,18 @@
 
 import pkg.*;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class game{
 
 	private Rectangle player;
 	public Rectangle background, leftEye, rightEye, mouth;
-	private ArrayList<Rectangle> platforms; // add and remove rectangles appropriately
+	private ArrayList<Rectangle> platforms = new ArrayList<Rectangle>(); // always have 8 platforms on screen; // add and remove rectangles appropriately
+	public ArrayList<Double> platformSpeeds = new ArrayList<Double>();
+	public ArrayList<Integer> scores = new ArrayList<Integer>();
 	public Text score;
 	public double speed = 0, fallSpeed = 2, horizontalSpeed = 0, jumpSpeed = 0;
 	public int numScore = 0, timer = 0, airTime = 0;
@@ -22,9 +28,9 @@ public class game{
 		rightEye = new Rectangle(225,455,10,10);
 		mouth = new Rectangle(207,480,25,10);
 		score = new Text(220,30,numScore+"");
-		platforms = new ArrayList<Rectangle>(); // always have 8 platforms on screen
 		for(int i = 0; i < 8; i++){
 			platforms.add(new Rectangle(Canvas.rand(420),Canvas.rand(630),80,20));
+			platformSpeeds.add(Math.random()*2);
 		}
 		//draw
 		background.setColor(new Color(Canvas.rand(255),Canvas.rand(255),Canvas.rand(255)));
@@ -54,14 +60,15 @@ public class game{
 	}
 
 	public void recyclePlatforms(){
-		for(Rectangle r : platforms){
-			if(r.getY() > 670){
-				if(r.getX() > 200)
-					r.translate(-1*Canvas.rand(200), 0);
-				else if(r.getX() < 200)
-					r.translate(Canvas.rand(200), 0);
-				r.setColor(new Color(Canvas.rand(255),Canvas.rand(255),Canvas.rand(255)));
-				r.translate(0,-690 - Canvas.rand(50));
+		for(int i = 0; i < platforms.size(); i++){
+			if(platforms.get(i).getY() > 670){
+				if(platforms.get(i).getX() > 200)
+					platforms.get(i).translate(-1*Canvas.rand(200), 0);
+				else if(platforms.get(i).getX() < 200)
+					platforms.get(i).translate(Canvas.rand(200), 0);
+				platforms.get(i).setColor(new Color(Canvas.rand(255),Canvas.rand(255),Canvas.rand(255)));
+				platforms.get(i).translate(0,-690 - Canvas.rand(50));
+				platformSpeeds.set(i, Math.random()*2);
 			}
 		}
 	}
@@ -71,7 +78,6 @@ public class game{
 		recyclePlatforms();
 		swapPositions();
 		for(int i = 0; i < platforms.size(); i++){
-
 			// fix player stops when under the platform then goes top
 
 			//if(player.contains(platforms.get(i))) // for debugging
@@ -84,7 +90,7 @@ public class game{
 			else if((!player.contains(platforms.get(i)) && (player.getY() < platforms.get(i).getY())) && canChange)
 				fallSpeed = 2.0;
 
-			platforms.get(i).translate(0,1);
+			platforms.get(i).translate(0,platformSpeeds.get(i));
 		}
 		movePlayer(0,fallSpeed);
 
@@ -101,12 +107,11 @@ public class game{
 		
 		//jump for a specific amount of time. try making a smooth animation
 		jumpSpeed = -80;
-		for(int i = 0; i < 3; i++){
-			Canvas.pause(10);
-			movePlayer(0,jumpSpeed);
-			jumpSpeed/=2;
+		for(int i = 0; i < 80; i++){
+			//Canvas.pause(10);
+			movePlayer(0,-1);
+			//jumpSpeed/=2;
 		}
-		
 		
 	}
 
@@ -123,6 +128,34 @@ public class game{
 			platforms.get(i).translate(-750,0);
 		for(int i = 0; i < platforms.size(); i++)
 			platforms.remove(0);
+	}
+
+	public String recordScore(String fileName, String userName, int score){
+			//note: the only thing the try catches do is catch runtime errors,
+			//but if the file exists and is okay you don't really need them
+
+			//write to file:
+			try{
+				FileWriter myFileWriter = new FileWriter("scores.txt",true); // the true prevents it from overwriting information
+				myFileWriter.write(userName + ":" + numScore + "\n");
+				myFileWriter.close();
+			}
+			catch(IOException e){
+				e.printStackTrace();
+			}
+			//read from file:
+			
+			EasyReader fileReader = new EasyReader("scores.txt"); // get arraylist to have scores to sort them
+			String data = "";
+			Scanner sc = new Scanner(data);
+			while(!fileReader.eof()){
+				data+=fileReader.readLine();
+				scores.add(sc.nextInt());
+				System.out.println("File line: " + fileReader.readLine());
+				System.out.println("Score num: " + scores.get(scores.size()-1));
+			}
+			System.out.println(data);
+			return data;
 	}
 
 	public Rectangle getPlayer(){
