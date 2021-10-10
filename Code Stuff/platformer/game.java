@@ -2,117 +2,107 @@
 
 import pkg.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class game{
 
-	private Rectangle player;
-	public Rectangle background, leftEye, rightEye, mouth;
-	private ArrayList<Rectangle> platforms = new ArrayList<Rectangle>(); // always have 8 platforms on screen; // add and remove rectangles appropriately
-	public ArrayList<Double> platformSpeeds = new ArrayList<Double>();
+	private Rectangle player, leftEye, rightEye, mouth;
+	private ArrayList<Rectangle> platforms = new ArrayList<Rectangle>(); // add and remove rectangles appropriately
+	public ArrayList<String> names = new ArrayList<String>();
 	public ArrayList<Integer> scores = new ArrayList<Integer>();
 	public Text score;
-	public double speed = 0, fallSpeed = 2, horizontalSpeed = 0, jumpSpeed = 0;
-	public int numScore = 0, timer = 0, airTime = 0;
+	public double speed = 0, vertSpeed = 2, horizSpeed = 0;
+	public int numScore = 0, airTime, rectIndex = -1;
 
 	// Idea: as time increases, platforms fall faster
 
 	public game(){
 		//initialize
-		background = new Rectangle(0,0,450,650);
-		player = new Rectangle(200,450,40,60);
+		player = new Rectangle(200,450,40,50);
 		leftEye = new Rectangle(205,455,10,10);
 		rightEye = new Rectangle(225,455,10,10);
 		mouth = new Rectangle(207,480,25,10);
 		score = new Text(220,30,numScore+"");
-		for(int i = 0; i < 8; i++){
-			platforms.add(new Rectangle(Canvas.rand(420),Canvas.rand(630),80,20));
-			platformSpeeds.add(Math.random()*2);
-		}
+		for(int i = 0; i < 10; i++)
+			platforms.add(new Rectangle(Canvas.rand(420),Canvas.rand(600),80,20));
 		//draw
-		background.setColor(new Color(Canvas.rand(255),Canvas.rand(255),Canvas.rand(255)));
-		background.fill();
 		for(Rectangle r : platforms){
-			r.setColor(new Color(Canvas.rand(255),Canvas.rand(255),Canvas.rand(255)));
+			r.draw();
+			r.setColor(new Color(78,250,78)/*new Color(Canvas.rand(255),Canvas.rand(255),Canvas.rand(255))*/);
 			r.fill();
 		}
-		score.grow(25,40);
-		score.setColor(new Color(255,255,255));
+		score.grow(40,30);
 		score.draw();
-		player.setColor(new Color(Canvas.rand(255),Canvas.rand(255),Canvas.rand(255)));
+		player.setColor(new Color(205, 127, 50));
 		player.fill();
 		leftEye.fill();
 		rightEye.fill();
-		mouth.setColor(new Color(200,0,0));
+		mouth.setColor(new Color(180,0,0));
 		mouth.fill();
 	}
 
 	public void swapPositions(){
-		if(player.getX() < -40){
+		if(player.getX() < -40)
 			movePlayer(490, 0);
-		}
-		else if(player.getX() > 490){
+		else if(player.getX() > 490)
 			movePlayer(-530, 0);
-		}
 	}
 
 	public void recyclePlatforms(){
 		for(int i = 0; i < platforms.size(); i++){
 			if(platforms.get(i).getY() > 670){
-				if(platforms.get(i).getX() > 200)
-					platforms.get(i).translate(-1*Canvas.rand(200), 0);
-				else if(platforms.get(i).getX() < 200)
-					platforms.get(i).translate(Canvas.rand(200), 0);
-				platforms.get(i).setColor(new Color(Canvas.rand(255),Canvas.rand(255),Canvas.rand(255)));
-				platforms.get(i).translate(0,-690 - Canvas.rand(50));
-				platformSpeeds.set(i, Math.random()*2);
+				int moveX = (platforms.get(i).getX()>200) ? -1*Canvas.rand(200) : Canvas.rand(200);
+				platforms.get(i).translate(moveX,-platforms.get(i).getY());
 			}
 		}
 	}
 
 	public void fall(){
 		boolean canChange = true;
-		recyclePlatforms();
 		swapPositions();
 		for(int i = 0; i < platforms.size(); i++){
 			// fix player stops when under the platform then goes top
 
-			//if(player.contains(platforms.get(i))) // for debugging
-			//	System.out.println(player.getY()+player.getHeight() + " " + platforms.get(i).getY());
-			if((player.contains(platforms.get(i))) && fallSpeed>0/*((player.getY()+player.getHeight()) >= platforms.get(i).getY())*/){
-				jump();
-				fallSpeed = 0.0;
+			//if(vertSpeed>0 && ((player.getY()+player.getHeight()) >= platforms.get(i).getY()) && (player.contains(platforms.get(i)))){
+			if(vertSpeed>0 && player.contains(platforms.get(i))){
+				if(rectIndex != i){
+					numScore += 10;
+					rectIndex = i;
+				}
+				System.out.println("jump!");
+				vertSpeed = -4;
+				jump(-4);
 				canChange = false;
 			}
-			else if((!player.contains(platforms.get(i)) && (player.getY() < platforms.get(i).getY())) && canChange)
-				fallSpeed = 2.0;
+			//else if((!player.contains(platforms.get(i)) || (player.getY() > platforms.get(i).getY())) || canChange)
+				//vertSpeed = 2.5;
+			else
+				vertSpeed = 2.5;
 
-			platforms.get(i).translate(0,platformSpeeds.get(i));
 		}
-		movePlayer(0,fallSpeed);
+		movePlayer(0, 2.5);
 
 	}
 
-	public void jump(){
-		/*
-		if(player.getY() < 100)
-			jumpSpeed = 0;
-		else if(player.getY() > 100)
-			jumpSpeed = -80;
-		movePlayer(0,jumpSpeed);
-		*/
-		
-		//jump for a specific amount of time. try making a smooth animation
-		jumpSpeed = -80;
-		for(int i = 0; i < 80; i++){
-			//Canvas.pause(10);
-			movePlayer(0,-1);
-			//jumpSpeed/=2;
+	public void jump(double velocity){
+		//vertSpeed = 3;
+		airTime = 0;
+		while(airTime<30){
+			recyclePlatforms();
+			Canvas.pause(5);
+			//movePlayer(horizSpeed,-vertSpeed+(airTime*0.01));
+			if(velocity<0)
+				movePlayer(horizSpeed, velocity+(airTime*0.02));
+			else if(velocity>0)
+				movePlayer(horizSpeed, velocity-(airTime*0.001));
+			if(player.getY()<200){
+				for(Rectangle plats : platforms)
+					plats.translate(0,5);
+			}
+			airTime++;
 		}
-		
 	}
 
 	public void movePlayer(double x, double y){
@@ -137,22 +127,20 @@ public class game{
 			//write to file:
 			try{
 				FileWriter myFileWriter = new FileWriter("scores.txt",true); // the true prevents it from overwriting information
-				myFileWriter.write(userName + ":" + numScore + "\n");
+				myFileWriter.write(userName + ";" + numScore + "\n");
 				myFileWriter.close();
 			}
 			catch(IOException e){
 				e.printStackTrace();
 			}
 			//read from file:
-			
 			EasyReader fileReader = new EasyReader("scores.txt"); // get arraylist to have scores to sort them
 			String data = "";
-			Scanner sc = new Scanner(data);
 			while(!fileReader.eof()){
-				data+=fileReader.readLine();
-				scores.add(sc.nextInt());
-				System.out.println("File line: " + fileReader.readLine());
-				System.out.println("Score num: " + scores.get(scores.size()-1));
+				String line = fileReader.readLine()+"\n";
+				data+=line;
+				//names.add(line.substring(0,line.indexOf(";")-1));
+				//scores.add(Integer.parseInt(line.substring(line.indexOf(";")+1)));
 			}
 			System.out.println(data);
 			return data;

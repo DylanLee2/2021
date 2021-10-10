@@ -119,6 +119,11 @@ public class Rectangle implements Shape
         Canvas.getInstance().show(this);
     }
 
+    //public void undraw()
+   // {
+    //    Canvas.getInstance().unshow(this);
+    //}
+
     /**
        Fills this rectangle.
     */

@@ -106,6 +106,11 @@ public class Text implements Shape
     {
         Canvas.getInstance().show(this);
     }
+
+    //public void undraw(){
+       // Canvas.getInstance().unshow(this);
+    //}
+
    // new method added by Neato to support translating, changing Text Objects
    public void setText(String update)
 	{
