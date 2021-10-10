@@ -12,8 +12,8 @@ public class starter implements InputKeyControl {
 
 		for(int r = 0; r < displayBoxes.length; r++){ // initializes text
 			for(int c = 0; c < displayBoxes[0].length; c++){
-				displayBoxes[r][c] = new Text(170*r,170*c,"");
-				displayBoxes[r][c].grow(30,40);
+				displayBoxes[r][c] = new Text(150*c+70,150*r+70,"");
+				displayBoxes[r][c].grow(25,35);
 				displayBoxes[r][c].draw();
 			}
 		}
@@ -41,8 +41,8 @@ public class starter implements InputKeyControl {
 	public static void printBoxes(){
 		for(int rows = 0; rows < boxes.length; rows++){
 			for(int columns = 0; columns < boxes[0].length; columns++)
-				System.out.print(boxes[rows][columns] + " ");
-			System.out.println();
+				System.out.print(boxes[rows][columns] + "  ");
+			System.out.println("\n");
 		}
 		System.out.println();
 	}
@@ -91,12 +91,15 @@ public class starter implements InputKeyControl {
 				if(limit && (boxes[rows+upOrDown][columns+leftOrRight] == boxes[rows][columns])){ // if 
 					boxes[rows+upOrDown][columns+leftOrRight] *= 2;
 					boxes[rows][columns] = 0;
+					displayBoxes[rows+upOrDown][columns+leftOrRight].setText(boxes[rows+upOrDown][columns+leftOrRight]+"");
+					displayBoxes[rows][columns].setText(boxes[rows][columns]+"");
 				}
 				else if(limit && (boxes[rows+upOrDown][columns+leftOrRight] == 0)){
 					boxes[rows+upOrDown][columns+leftOrRight] = boxes[rows][columns];
 					boxes[rows][columns] = 0;
+					displayBoxes[rows+upOrDown][columns+leftOrRight].setText(boxes[rows+upOrDown][columns+leftOrRight]+"");
+					displayBoxes[rows][columns].setText(boxes[rows][columns]+"");
 				}
-				displayBoxes[rows][columns].setText(boxes[rows][columns]+"");
 			}
 		}
 		addNums();
