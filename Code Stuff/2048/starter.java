@@ -63,6 +63,16 @@ public class starter implements InputKeyControl {
 		}
 	}
 
+	//public static boolean gameOver(){} // if none of the tiles are 0 and cant add together
+
+	public void moveVertical(){
+
+	}
+
+	public void moveHorizontal(){
+		
+	}
+
 	// w(up), a(left), s(down), d(right)
 	public void keyPress(String s) {
 
