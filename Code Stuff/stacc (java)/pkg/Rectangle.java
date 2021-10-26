@@ -47,6 +47,11 @@ public class Rectangle implements Shape
         return (int) Math.round(x);
     }
 
+    public void setX(double newX){
+        x = newX;
+        Canvas.getInstance().repaint();
+    }
+
     /**
        Gets the topmost y-position of this rectangle.
        @return the topmost y-position
@@ -63,6 +68,11 @@ public class Rectangle implements Shape
     public int getWidth()
     {
         return (int) Math.round(width);
+    }
+
+    public void setWidth(double newWidth){
+        width = newWidth;
+        Canvas.getInstance().repaint();
     }
 
     /**
