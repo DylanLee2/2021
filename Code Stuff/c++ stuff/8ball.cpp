@@ -2,9 +2,12 @@
 #include <iostream>
 #include <cstdlib>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 using namespace std;
@@ -13,8 +16,12 @@ int main(){ //8 ball
 
   cout<<"Magic 8-ball\n\n";
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   srand(time(0));
   cout<<"Enter a wish: ";
+=======
+  cout<<"What is your wish?";
+>>>>>>> Stashed changes
 =======
   cout<<"What is your wish?";
 >>>>>>> Stashed changes
