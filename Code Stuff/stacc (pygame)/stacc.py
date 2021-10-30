@@ -9,54 +9,43 @@ WINDOW_WIDTH = 600; WINDOW_HEIGHT = 600
 WINDOW = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption('staq')
 
-#def leftAndRight(left,right):
-
 def main ():
   counter = 0 #used as a score and counter#
-  xPos = 150; yPos = 550
+  yPos = 550
   width = 300; height = 50
-  xSpeed = 5; ySpeed = 5
-  left = True; right = False #game starts going left#
-  gravity = 1
+  xSpeed = 5
   xPositions = [150]
   recs = [pygame.Rect(xPositions[0],yPos,width,height)]
   
   playing = True
   while playing :
-    
+
+    press = pygame.key.get_pressed()
     for event in pygame.event.get() :
       if event.type == QUIT :
         pygame.quit()
         sys.exit()
 
     #left & right animation#
-    if((xPositions[counter] >= 0) and (left)):
-      xSpeed = -3
-      if(xPositions[counter] <= 0):
-        left = False
-        right = True
-    elif((xPositions[counter] <= WINDOW_WIDTH-width) and (right)):
-      xSpeed = 3
-      if(xPositions[counter]+width >= WINDOW_WIDTH):
-        left = True
-        right = False
+    if(xPositions[counter]<=10 or xPositions[counter]>=600-width-10):
+      xSpeed*=-1
     xPositions[counter]+=xSpeed
 
     #stop rectangle#
-    if(event.type == pygame.KEYDOWN and event.key == K_r):
+    if(press[K_w]):
       print("next rec")
       print(counter)
       xPositions.append(xPositions[counter])
       recs.append(pygame.Rect(xPositions[counter],yPos-height*2,width,height))
-      counter+=1 #next rectangle#
-    press = pygame.key.get_pressed()
-
+      counter+=1 #next rectangle + increases score#
+    
     WINDOW.fill(BACKGROUND)
     for x in range(len(recs)):
       pygame.draw.rect(WINDOW,(50,50,200),recs[x])
-    # pygame.draw.rect(WINDOW,(50,50,200),recs[counter])
     pygame.display.update()
     fpsClock.tick(FPS)
+
+  #counter is the score
  
 main()
 """
