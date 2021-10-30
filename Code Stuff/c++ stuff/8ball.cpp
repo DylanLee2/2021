@@ -1,16 +1,23 @@
 //Dylan Lee 6/17/21
 #include <iostream>
 #include <cstdlib>
+<<<<<<< Updated upstream
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+=======
+>>>>>>> Stashed changes
 using namespace std;
 
 int main(){ //8 ball
 
   cout<<"Magic 8-ball\n\n";
+<<<<<<< Updated upstream
   srand(time(0));
   cout<<"Enter a wish: ";
+=======
+  cout<<"What is your wish?";
+>>>>>>> Stashed changes
   string wish;
   cin>>wish;
   int response = rand()%10; //0-9
