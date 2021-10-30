@@ -3,7 +3,7 @@
 cd "`dirname "$0"`"
 
 javac *.java
-java starter
+java stacc
 
 echo 'Prees entur 2 clos'
 read

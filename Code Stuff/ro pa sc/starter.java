@@ -4,18 +4,19 @@ public class starter {
 			
 	public static void main(String args[]) {
 		
-		boolean on = true;
-		while(on){
+		int you, opp;
+		Scanner sc = new Scanner(System.in);
+		boolean playing = true;
+		while(playing){
 			System.out.println("\n\n\nFirst to 3. Good luck.");
-			Scanner sc = new Scanner(System.in);
-			boolean game = true;
-			int you = 0, opp = 0;
+			you = 0;
+			opp = 0;
 			while(you < 3 && opp < 3){
 				System.out.print("\n\nRock(1), Paper(2), Scissors(3): ");
 				int inp = sc.nextInt();
 				int opponent = (int)(Math.random()*3) + 1;
 				System.out.print("You: "+ evaluate(inp) + "   Opponent: " + evaluate(opponent));
-				
+		
 				if(inp == 1 && opponent == 3){
 					you++;
 					System.out.print("           +1");
@@ -28,23 +29,18 @@ public class starter {
 					you++;
 					System.out.print("           +1");
 				}
-				else if(inp == opponent || inp > 3 || inp < 1){
+				else if(inp == opponent || inp > 3 || inp < 1)
 					System.out.print("           +0");
-				}
 				else
 					opp++;
-				//you += (inp == 1 && opponent == 3) ? 1 : (inp == 2 && opponent == 1) ? 1 : (inp == 3 && opponent == 2) ? 1 : 0; 
-				//opp += (opponent == 1 && inp == 3) ? 1 : (opponent == 2 && inp == 1) ? 1 : (opponent == 3 && inp == 2) ? 1 : 0;
 				
 			}
-			
-			String winPhrase = "You Win, Try that again\n", losePhrase = "You lose\n";
-			System.out.println("\n\nScore: you=" + you + ", opponent=" + opp);
-			String result = (you > opp) ? winPhrase : losePhrase;
-			System.out.println(result);
+			System.out.println("\n\nScore: you=" + you + "; opponent=" + opp);
+			//String result = (you > opp) ? "You Win, Try again\n" : "You lose\n";
+			System.out.println((you > opp) ? "You Win\n" : "You lose\n");
 
 			System.out.print("Enter c to continue or anything else to quit: ");
-			on = sc.next().equals("c") ? true : false;
+			playing = sc.next().equals("c") ? true : false;
 		}
 		
 	}
