@@ -1,5 +1,4 @@
 import pkg.*;
-import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.io.IOException;
@@ -11,7 +10,7 @@ public class stacc implements InputKeyControl {
 	public static ArrayList<Rectangle> sliced = new ArrayList<Rectangle>();
 	public static ArrayList<Double> slicedAccel = new ArrayList<Double>();
 	public static ArrayList<Text> scores = new ArrayList<Text>();
-	public static int counter, xSpeed, speed=6, streak = 1;
+	public static int counter, speed=6, streak = 1;
 	public static String inp="", playerName="";
 	public static boolean playing=true, alive, nameMade=false;
 	public static Text score, displayName;
@@ -23,6 +22,7 @@ public class stacc implements InputKeyControl {
 	optimize code
 	add "aim assist"
 	make classes to shorten code (goes with optimizing)
+	smoother "camera" shifting animation
 	*/
 
 	public static void main(String args[]) throws ConcurrentModificationException{
@@ -33,10 +33,8 @@ public class stacc implements InputKeyControl {
 		background.setColor(new Color(255,255,255));
 		background.fill();
 
-		Rectangle border1 = new Rectangle(0,-10,10,610);
-		border1.draw();
-		Rectangle border2 = new Rectangle(590,-10,10,610);
-		border2.draw();
+		Rectangle borders = new Rectangle(10,-10,580,620);
+		borders.draw();
 
 		Text restartGame = new Text(300,230,"Press R to restart or Q to quit </3");
 		restartGame.setColor(Color.RED);
@@ -56,26 +54,29 @@ public class stacc implements InputKeyControl {
 		while(playing){
 			// initialize game
 			counter = 1;
-			xSpeed = speed;
 
 			score.setText("Score: " + (counter-1));
 
 			recs.add(new Rectangle(100,567,350,30)); // starting rectangle
 			recs.get(0).draw();
 			
-			recs.add(new Rectangle(Canvas.rand(600-recs.get(0).getWidth())+10,537,recs.get(0).getWidth(),30));
+			recs.add(new Rectangle(Canvas.rand(600-recs.get(0).getWidth()),537,recs.get(0).getWidth(),30));
 			recs.get(1).setColor(Color.RED);
 			recs.get(1).draw();
 
 			alive = true;
 			while(alive){
 				Canvas.pause(20);
-				moveLeftAndRight();
+
+				// move left & right
+				if(recs.get(counter).getX() <= 10 || recs.get(counter).getX()+recs.get(counter).getWidth() >= 590)
+					speed*=-1; // change directions
+				recs.get(counter).translate(speed,0);
+
 				if(recs.get(counter-1).getY() <= 120){ // keeps "camera" in the middle
-					Canvas.pause(20);
-					for(int i = 0; i < recs.size(); i++){
+					//Canvas.pause(20);
+					for(int i = 0; i < recs.size(); i++)
 						recs.get(i).translate(0, recs.get(i).getHeight());
-					}
 				}
 				for(int i = 0; i < sliced.size(); i++){ // sliced part falling "animation"
 					sliced.get(i).translate(0,2+slicedAccel.get(i));
@@ -92,25 +93,24 @@ public class stacc implements InputKeyControl {
 			}
 
 			displayName.draw(); //add to scoreboard
-			while(!nameMade)
+			while(!nameMade){
 				System.out.print("");
+				if(inp.equals((char)10+""))
+					nameMade = true;
+			}
 			displayName.undraw();
 			
 			ArrayList<Integer> numScores = new ArrayList<Integer>();
-			ArrayList<Integer> scoreIndex = new ArrayList<Integer>();
 			ArrayList<String> users = new ArrayList<String>();
+
 			recordScore("leaderboard.txt", playerName, counter-1);
 			fileReader = new EasyReader("leaderboard.txt");
 			while(!fileReader.eof()){
 				String line = fileReader.readLine();
 				numScores.add(Integer.parseInt(line.substring(line.indexOf(";")+1)));
-				scoreIndex.add(numScores.size()-1);
 				users.add(line.substring(0,line.indexOf(";")));
-				System.out.println(line);
-				//scores.add(new Text(250,300+((scores.size()-1)*30),line));
-				//scores.get(scores.size()-1).draw();
+				//System.out.println(line);
 			}
-			//System.out.println("loop broken :)");
 			
 			//get top 5 scores, and your score, sort from greatest to least
 			for(int i = 0; i < numScores.size(); i++){
@@ -119,16 +119,16 @@ public class stacc implements InputKeyControl {
 						int temp = numScores.get(i);
 						numScores.set(i,numScores.get(j));
 						numScores.set(j,temp);
-						int tempIndex = scoreIndex.get(i);
-						scoreIndex.set(i,j);
-						scoreIndex.set(j,tempIndex);
+						String tempIndex = users.get(i);
+						users.set(i,users.get(j));
+						users.set(j,tempIndex);
 					}
 				}
 			}
 
 			for(int i = 0; i < 5; i++){ // prints top 5 scores
-				System.out.println(users.get(scoreIndex.get(i))+" "+numScores.get(scoreIndex.get(i)));
-				scores.add(new Text(250,300+((scores.size()-1)*30),users.get(scoreIndex.get(i))+" "+numScores.get(scoreIndex.get(i))));
+				//System.out.println(users.get(i)+" "+numScores.get(i));
+				scores.add(new Text(250,300+((scores.size()-1)*30),users.get(i)+" "+numScores.get(i)));
 				scores.get(scores.size()-1).draw();
 			}
 
@@ -149,6 +149,11 @@ public class stacc implements InputKeyControl {
 			for(int i = 0; i < recs.size(); i++){
 				recs.get(i).undraw();
 				recs.remove(i);
+				i--;
+			}
+			for(int i = 0; i < scores.size(); i++){
+				scores.get(i).undraw();
+				scores.remove(i);
 				i--;
 			}
 		}
@@ -203,17 +208,10 @@ public class stacc implements InputKeyControl {
 				playerName+=s;
 			displayName.setText("Enter username: " + playerName);
 		}
-		if(s.equals((char)10+""))
-			nameMade = true;
+
 	}
 
-	public static void moveLeftAndRight(){
-		if(recs.get(counter).getX() <= 10 || recs.get(counter).getX()+recs.get(counter).getWidth() >= 590)
-			xSpeed*=-1; // change directions
-		recs.get(counter).translate(xSpeed,0);
-	}
-
-	public static /*String*/ void recordScore(String fileName, String userName, int score){
+	public static void recordScore(String fileName, String userName, int score){
 		//note: the only thing the try catches do is catch runtime errors,
 		//but if the file exists and is okay you don't really need them
 
@@ -225,14 +223,20 @@ public class stacc implements InputKeyControl {
 				String line = fileReader.readLine();
 				if(playerName.equals(line.substring(0,line.indexOf(";")))){
 					nameExists = true;
-					if(){ // current score is greater than existing score, change it
-
-					}
-					break;
+					if(Integer.parseInt(line.substring(line.indexOf(";")+1))<counter-1) // current score is greater than existing score, change it
+						data+=line.substring(0,line.indexOf(";")+1)+(counter-1)+"\n";
+					else
+						data+=line+"\n";
 				}
+				else
+					data+=line+"\n";
 			}
-
-			if(!nameExists){
+			if(nameExists){
+				FileWriter myFileWriter = new FileWriter("leaderboard.txt"); // the true prevents it from overwriting information
+				myFileWriter.write(data);
+				myFileWriter.close();
+			}
+			else if(!nameExists){
 				FileWriter myFileWriter = new FileWriter("leaderboard.txt",true); // the true prevents it from overwriting information
 				myFileWriter.write(userName + ";" + (counter-1) + "\n");
 				myFileWriter.close();
@@ -241,18 +245,7 @@ public class stacc implements InputKeyControl {
 		catch(IOException e){
 			e.printStackTrace();
 		}
-		/*
 
-		//read from file:
-		fileReader = new EasyReader("leaderboard.txt");
-		String data = "";
-		while(!fileReader.eof()){
-			String line = fileReader.readLine()+"\n";
-			data+=line;
-		}
-		//return data;
-
-		*/
 	}
 
 }

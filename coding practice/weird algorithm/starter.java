@@ -1,18 +1,29 @@
 // Dylan Lee 10/30/21
+import java.io.*;
+import java.util.*;
 public class starter {
 
-	public static int weirdAlgorithm(int n){
-		if(n==1) // base case
-			return n;
-		System.out.print(n + " ");
-		if(n%2 == 0) // n is even
-			return weirdAlgorithm(n/2);
-		return weirdAlgorithm((n*3)+1); // n is odd
+	public static long n;
+	public static BufferedReader br;
+	public static StringBuilder sb;
+
+	public static void weirdAlgorithm(){
+		while(n != 1){
+			if(n%2 == 0)
+				n/=2;
+			else
+				n=(n*3)+1;
+			sb.append(" ").append(n);
+		}
 	}
 
-	public static void main(String args[]) {
-		int n = 3;
-		System.out.println(weirdAlgorithm(n));
+	public static void main(String args[]) throws IOException{
+		br = new BufferedReader(new InputStreamReader(System.in));
+		n = Long.parseLong(br.readLine());
+		sb = new StringBuilder();
+		sb.append(n);
+		weirdAlgorithm();
+		System.out.print(sb.toString());
 	}
 // 5 minutes to make
 }
