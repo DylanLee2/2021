@@ -1,15 +1,5 @@
 AaronStrong;1000
-dylan;10
-dylan2;8
-dylan2rw;4
-dyaln3;9
+deelen;36
+KevinLoritsch;42
+dylan7;55
 w;7
-<<<<<<< Updated upstream
-w;9
-w;9
-r;9
-r;5
-rw;8
-w;7
-=======
->>>>>>> Stashed changes
