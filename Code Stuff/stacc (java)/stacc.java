@@ -22,7 +22,7 @@ public class stacc implements InputKeyControl {
 	optimize code
 	add "aim assist"
 	make classes to shorten code (goes with optimizing)
-	smoother "camera" shifting animation
+	slice & stack cake??
 	*/
 
 	public static void main(String args[]) throws ConcurrentModificationException{
@@ -60,7 +60,7 @@ public class stacc implements InputKeyControl {
 			recs.add(new Rectangle(100,567,350,30)); // starting rectangle
 			recs.get(0).draw();
 			
-			recs.add(new Rectangle(Canvas.rand(600-recs.get(0).getWidth()),537,recs.get(0).getWidth(),30));
+			recs.add(new Rectangle(Canvas.rand(580-recs.get(0).getWidth())+10,537,recs.get(0).getWidth(),30));
 			recs.get(1).setColor(Color.RED);
 			recs.get(1).draw();
 
@@ -74,9 +74,11 @@ public class stacc implements InputKeyControl {
 				recs.get(counter).translate(speed,0);
 
 				if(recs.get(counter-1).getY() <= 120){ // keeps "camera" in the middle
-					//Canvas.pause(20);
-					for(int i = 0; i < recs.size(); i++)
-						recs.get(i).translate(0, recs.get(i).getHeight());
+					for(int i = 0; i < 30; i++){
+						Canvas.pause(1);
+						for(int j = 0; j < recs.size(); j++)
+							recs.get(j).translate(0, 1);
+					}
 				}
 				for(int i = 0; i < sliced.size(); i++){ // sliced part falling "animation"
 					sliced.get(i).translate(0,2+slicedAccel.get(i));
@@ -144,7 +146,7 @@ public class stacc implements InputKeyControl {
 				}
 			}
 			//nameMade = false; // makes name each "round"
-			playerName="";
+			//playerName="";
 			restartGame.undraw();
 			for(int i = 0; i < recs.size(); i++){
 				recs.get(i).undraw();
@@ -190,7 +192,7 @@ public class stacc implements InputKeyControl {
 				}
 				if(streak>3){
 					recs.get(counter).setX(recs.get(counter).getX()-5);
-					recs.get(counter).setWidth(recs.get(counter).getWidth()+5); // net gain is 10(5 left, 5 right)
+					recs.get(counter).setWidth(recs.get(counter).getWidth()+10); // net gain is 10(5 left, 5 right)
 				}
 				slicedAccel.add(0.0);
 				counter++;
