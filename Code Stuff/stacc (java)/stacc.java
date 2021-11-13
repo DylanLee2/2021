@@ -82,7 +82,7 @@ public class stacc implements InputKeyControl {
 				}
 				for(int i = 0; i < sliced.size(); i++){ // sliced part falling "animation"
 					sliced.get(i).translate(0,2+slicedAccel.get(i));
-					slicedAccel.set(i,slicedAccel.get(i)+0.2);
+					slicedAccel.set(i,slicedAccel.get(i)+0.5);
 					if(sliced.get(i).getY() > 600){
 						sliced.get(i).undraw();
 						sliced.remove(i);
@@ -94,13 +94,15 @@ public class stacc implements InputKeyControl {
 					alive = false;
 			}
 
-			displayName.draw(); //add to scoreboard
-			while(!nameMade){
-				System.out.print("");
-				if(inp.equals((char)10+""))
-					nameMade = true;
+			if(!nameMade){ // doesn't check this part if name is already made
+				displayName.draw(); //add to scoreboard
+				while(!nameMade){
+					System.out.print("");
+					if(inp.equals((char)10+""))
+						nameMade = true;
+				}
+				displayName.undraw();
 			}
-			displayName.undraw();
 			
 			ArrayList<Integer> numScores = new ArrayList<Integer>();
 			ArrayList<String> users = new ArrayList<String>();
@@ -128,8 +130,7 @@ public class stacc implements InputKeyControl {
 				}
 			}
 
-			for(int i = 0; i < 5; i++){ // prints top 5 scores
-				//System.out.println(users.get(i)+" "+numScores.get(i));
+			for(int i = 0; i < 5; i++){ // displays top 5 scores
 				scores.add(new Text(250,300+((scores.size()-1)*30),users.get(i)+" "+numScores.get(i)));
 				scores.get(scores.size()-1).draw();
 			}
@@ -146,7 +147,6 @@ public class stacc implements InputKeyControl {
 				}
 			}
 			//nameMade = false; // makes name each "round"
-			//playerName="";
 			restartGame.undraw();
 			for(int i = 0; i < recs.size(); i++){
 				recs.get(i).undraw();
@@ -164,7 +164,7 @@ public class stacc implements InputKeyControl {
 
 	public void keyPress(String s) throws ConcurrentModificationException{
 		inp = s;
-		if(s.equals("w") && alive){
+		if(alive && s.equals("w")){
 			recs.get(counter).setColor(Color.BLACK);
 			// rectangle is out of bounds
 			if(((recs.get(counter).getX()+recs.get(counter).getWidth()) < recs.get(counter-1).getX()) || (recs.get(counter).getX() > (recs.get(counter-1).getX()+recs.get(counter-1).getWidth())))
@@ -203,7 +203,7 @@ public class stacc implements InputKeyControl {
 			}
 		}
 
-		if(!alive && !s.equals((char)10+"")){ //(char)8 = back space, (char)10 = enter key
+		if(!alive && !s.equals((char)10+"")){ // (char)8 = back space, (char)10 = enter key
 			if(s.equals((char)8+"") && playerName.length()>0)
 				playerName = playerName.substring(0,playerName.length()-1);
 			else if(playerName.length() < 10)
@@ -234,7 +234,7 @@ public class stacc implements InputKeyControl {
 					data+=line+"\n";
 			}
 			if(nameExists){
-				FileWriter myFileWriter = new FileWriter("leaderboard.txt"); // the true prevents it from overwriting information
+				FileWriter myFileWriter = new FileWriter("leaderboard.txt");
 				myFileWriter.write(data);
 				myFileWriter.close();
 			}
@@ -247,7 +247,6 @@ public class stacc implements InputKeyControl {
 		catch(IOException e){
 			e.printStackTrace();
 		}
-
 	}
 
 }

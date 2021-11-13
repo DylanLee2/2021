@@ -25,19 +25,20 @@ def main ():
       if event.type == QUIT :
         pygame.quit()
         sys.exit()
+      if(event.type == pygame.KEYDOWN):
+        if([K_w]):
+          print("next rec")
+          print(counter)
+          xPositions.append(xPositions[counter])
+          recs.append(pygame.Rect(xPositions[counter],yPos-height,width,height))
+          yPos-=height
+          counter+=1 #next rectangle + increases score#
+        
 
     #left & right animation#
     if(xPositions[counter]<=10 or xPositions[counter]>=600-width-10):
       xSpeed*=-1
     xPositions[counter]+=xSpeed
-
-    #stop rectangle#
-    if(press[K_w]):
-      print("next rec")
-      print(counter)
-      xPositions.append(xPositions[counter])
-      recs.append(pygame.Rect(xPositions[counter],yPos-height*2,width,height))
-      counter+=1 #next rectangle + increases score#
     
     WINDOW.fill(BACKGROUND)
     for x in range(len(recs)):

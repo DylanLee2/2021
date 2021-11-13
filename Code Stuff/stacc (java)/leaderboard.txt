@@ -2,6 +2,5 @@ AaronStrong;1000
 deelen;36
 KevinLoritsch;42
 dylan7;55
-w;99
-wrw;16
+w;30
 ki;35
