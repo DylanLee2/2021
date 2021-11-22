@@ -3,9 +3,7 @@ var counter = 0;
 var xValues = [];
 var player = document.getElementById("player");
 var score = document.getElementById("score");
-
 var play = setInterval(function(){game();},10);
-
 document.onkeyup = keyPress;
 
 function keyPress(e){

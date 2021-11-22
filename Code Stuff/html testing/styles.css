@@ -10,13 +10,17 @@ p {
   font: 30px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
 }
 */
+#title{
+  color:brown;
+  font-style:italic;
+  font-size: 50px;
+  margin-left:300px;
+}
 
-#background{
-  width:600px;
-  height:600px;
-  background-size:cover;
-  background-color: rgb(171, 201, 41);
-  background-position:right bottom, left top;
+#instructions{
+  left:200px;
+  top:10px;
+  font-size:25px;
 }
 
 #gameBG{

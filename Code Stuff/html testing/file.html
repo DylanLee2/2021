@@ -2,35 +2,67 @@
 <html>
 
 <head>
-  
-  <title>html moment</title>
+  <title>html moment :P</title>
   <LINK href="styles.css" rel="stylesheet" type="text/css">
-  <style>
-    #pic{
-      width:300px;
-      border-radius:10px;
-      margin-left:10px;
-    }
-    #htmlmoment{
-      color:brown;
-      font-size: 40px;
-      margin-left: 550px;
-    }
-  </style>
+    <style>
+      #pic{
+        width:300px;
+        height:300px;
+        border-radius:10px;
+        margin-left:10px;
+      }
+      #pic2{
+        position: relative;
+        height:250px;
+        border-radius:10px;
+        margin-left:10px;
+      }
+      #htmlmoment{
+        color:brown;
+        font-size: 40px;
+        margin-left: 800px;
+        
+      }
+      #gameName{
+        color:rebeccapurple;
+        font-size: 30px;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        margin-left:150px;
+      }
+      /* Three image containers (use 25% for four, and 50% for two, etc) */
+      .column {
+        float: left;
+        width: 33.33%;
+        padding: 5px;
+      }
+
+      /* Clear floats after image containers */
+      .row::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
+    </style>
 </head>
 
 <body>
-
   <p id="htmlmoment">Dylan's Games</p>
-  <h2>click on the image to play the game<br><br></h2>
-  <div>
-    <a href="./link.html"><img src="stackgame.png" alt="stackgame" id="pic"></a>
+  <h2>*click on the image to play the game*<br><br></h2>
+
+  <div class = "row">
+    <div class="column">
+      <a href="./stacc.html"><img src="stackgame.png" alt="stackgame" id="pic"></a>
+      <p id="gameName">stacc</p>
+    </div>
+    <div class="column">
+      <a href="./survive.html"><img src="updown.png" alt="updowngame" id="pic2"></a>
+      <p id="gameName">up down</p>
+    </div>
   </div>
-  <p>stacc</p>
+  
   <marquee>eee</marquee>
-  <div id="background"></div>
-  <img src="picture.jpeg" alt="haha no picture get good" id="pic">
 
 </body>
 
+<!-- this is a comment -->
 </html>
