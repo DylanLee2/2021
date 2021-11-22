@@ -2,18 +2,37 @@
   margin:0px;
   padding:0px;
 }
-
+/*
 p {
   display: block;
   width: 400px;
   margin: 50px auto;
-  font: 50px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  font: 30px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
 }
+*/
 
 #background{
-  width: 500px;
-  height: 500px;
+  width:600px;
+  height:600px;
+  background-size:cover;
   background-color: rgb(171, 201, 41);
+  background-position:right bottom, left top;
+}
+
+#gameBG{
+  width:500px;
+  height:500px;
+  background-color: rgb(231, 170, 170);
+  margin-left:100px;
+}
+
+#player{
+  width:200px;
+  height:30px;
+  background-color: aqua;
+  position: relative;
+  left: 150px;
+  top: 370px;
 }
 
 
