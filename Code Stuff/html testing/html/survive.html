@@ -4,26 +4,38 @@
 <head>
   <title>Survive</title>
   <link href="../css/styles.css" rel="stylesheet" type="text/css">
-
   <style>
+    #score{
+      position:relative;
+      color: white;
+      left:350px;
+      top:30px;
+      font-size:30px;
+    }
+    #dispAmmo{
+      position:relative;
+      color: rgb(204, 105, 23);
+      left:150px;
+      font-size:25px;
+    }
     #canvas{
-      margin-top:20px;
-      margin-left: 200px;
+      margin-left:100px;
+      margin-top:-50px;
     }
   </style>
 </head>
 
-
-
 <body>
-  <a href="../html/file.html"><h1>home</h1></a>
-  <p id="title">Survive</p>
+  <a href="../html/file.html" style="user-select: none;"><h1>home</h1></a>
+  <p id="title" style="user-select: none;">Survive</p>
+  <div id="score" style="user-select: none;"><p>Score: 0</p></div>
+  <div id="dispAmmo" style="user-select: none;"><p>Ammo: </p></div>
+  <!--<div id="restart"><p>Press (r) to restart</p></div>-->
   <canvas id="canvas" width="600" height="600" style="border:1px solid #000000;"></canvas>
-  <img id = "player" src = "../images/sprite.png" alt = "no">
-  <img id = "enemy" src = "../images/enemy.png" alt = "no">
-  <img id="grandblue" src="../images/grandblue.gif" alt="grandblue meme">
-  <p id="instructions"> Use WASD for movement and click to shoot, survive as long as you can!</p>
-
+  <img id = "player" src = "../images/sprite.png" alt = "no" style="display:none;">
+  <img id = "enemy" src = "../images/enemy.png" alt = "no" style="display:none;">
+  <img id = "ammo" src = "../images/ammo.png" alt = "no">
+  <p id="instructions" style="user-select: none;"> Use WASD for movement and click to shoot, survive as long as you can! <br>(press p to pause)</p>
 </body>
 
 <script src="../javascript/surviveScript.js"></script>

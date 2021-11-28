@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Switch</title>
+    <LINK href="../css/styles.css" rel="stylesheet" type="text/css">
+    <style>
+      #score{
+        position:relative;
+        color: white;
+        left:350px;
+        top:30px;
+        font-size:30px;
+      }
+      #restart{
+        position:relative;
+        color:antiquewhite;
+        left:300px;
+        top:-300px;
+        font-size:30px;
+      }
+      #canvas{
+        margin-left:100px;
+        margin-top:10px;
+      }
+    </style>
+  </head>
+
+<body>
+  <a href="../html/file.html"><h1>home</h1></a>
+  <p id="title">Switch</p>
+  <canvas id="canvas" width="1000" height="470" style="border:1px solid #000000;"></canvas>
+  <img id = "cube_p" src = "../images/cube_p.png" alt = "no" style="display:none;">
+  <img id = "cubeop" src = "../images/cubeop.png" alt = "no" style="display:none;">
+  <img id = "cube_b" src = "../images/cube_b.png" alt = "no" style="display:none;">
+  <img id = "cubeob" src = "../images/cubeob.png" alt = "no" style="display:none;">
+  <p id="instructions">Press space to jump, W for pink, E for Blue</p>
+
+</body>
+
+<script src="../javascript/switchScript.js"></script>
+
+</html>

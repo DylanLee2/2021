@@ -53,6 +53,16 @@ class Brick{
   }
 }
 
+const mouse = {
+  x: innerWidth/2,
+  y: innerHeight/2
+}
+
+addEventListener('movemove',(event)=>{
+  mouse.x=event.clientX;
+  mouse.y=event.clientY;
+})
+
 function stop(){
   p.speedX = 0;
 }
@@ -84,15 +94,21 @@ function update(){ // game loop
   if(alive){
     c.fillStyle = 'rgba(1,1,1,0.4)'
     c.fillRect(0,0,canvas.width,canvas.height);
+    //console.log(mouse.x);
+    //p.x = mouse.x;
+    //p.draw();
     p.updatePosition();
     ball.updatePosition();
     for(let i = 0; i < bricks.length; i++){
       bricks[i].draw();
     }
-    if((ball.y+ball.h == p.y) && (ball.x>=p.x && ball.x+ball.w<=p.x+p.w) && Math.abs(ball.speedY)<50){
-      ball.speedX = p.speedX;
+    // ball hits player
+    if((ball.y+ball.h == p.y) && (ball.x>=p.x && ball.x+ball.w<=p.x+p.w)){
+      if(Math.abs(p.speedX)>Math.abs(ball.speedX))
+        ball.speedX = p.speedX;
       ball.speedY *= -1;
     }
+    // hits sides of the screen
     if(ball.x < 0 || ball.x+ball.w > canvas.width){
       ball.speedX *= -1;
     }
@@ -100,12 +116,20 @@ function update(){ // game loop
     if(ball.y > canvas.height){ // lose (show score)
       alive = false;
     }
-    else if(ball.y<0){ // win (next level)
+    else if(ball.y<0){ // win (next level with current score)
       alert("passed");
     }
     for(let i = 0; i < bricks.length; i++){
+      /*
+      if(ball.x>=bricks[i].x && ball.x<=bricks[i].x+bricks[i].w && ball.y+ball.h>=bricks[i].y && ball.y<=bricks[i].y+bricks[i].h){
+        ball.speedY *= -1;
+        bricks[i].hp-=1;
+      }
+      */
+      /*
       // ball hits brick vertically
       if(ball.x>bricks[i].x && ball.x<bricks[i].x+bricks[i].w && ball.y == bricks[i].y+bricks[i].h && Math.abs(ball.speedY)<50){
+      //if(ball.y+ball.h>=bricks[i].y && ball.y+ball.h<=bricks[i].y+bricks[i].h){
         bricks[i].hp-=1;
         ball.speedY *= -1;
         scoreNum++;
@@ -113,12 +137,26 @@ function update(){ // game loop
       }
       // ball hist brick horizontally
       else if(ball.y>bricks[i].y && ball.y<bricks[i].y+bricks[i].h && (ball.x==bricks[i].x || ball.x==bricks[i].x+bricks[i].w)){
+      //else if(ball.x>=bricks[i].x && ball.x<=bricks[i].x+bricks[i].w)
         bricks[i].hp-=1;
         ball.speedX *= -1;
         scoreNum++;
         score.innerHTML = "Score: "+scoreNum;
       }
+      */
+      // ball hits brick vertically
+      if(ball.y<=bricks[i].y+bricks[i].h && ball.x>=bricks[i].x && ball.x+ball.w<=bricks[i].x+bricks[i].w){
+        ball.speedY *= -1;
+        bricks[i].hp -= 1;
+      }
+      // ball hits brick horizontally
+      else if((ball.x+ball.w>=bricks[i].x || ball.x<=bricks[i].x+bricks[i].w) && ball.y>=bricks[i].y && ball.y+ball.h<=bricks[i].y+bricks[i].h){
+        ball.speedX *= -1;
+        bricks[i].hp -= 1;
+      }
       if(bricks[i].hp < 1){
+        scoreNum++;
+        score.innerHTML = "Score: "+scoreNum;
         bricks.splice(i,1);
         i--;
       }
@@ -132,7 +170,7 @@ c.fillRect(0,0,canvas.width,canvas.height);
 var speed = 7;
 var ballSpeed = 5;
 
-const p = new Player(200,550,200,25,"blue",0,0);
+const p = new Player(200,550,200,25,"aqua",0,0);
 p.draw();
 
 var bricks = [];
