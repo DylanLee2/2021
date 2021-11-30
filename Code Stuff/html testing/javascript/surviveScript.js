@@ -196,6 +196,7 @@ function keyPress(e){
   power ups (eg speed boost, infinite ammo for a period of time, etc.)
   soundfx if possible
   ammo & score icon
+  clone that enemies go toward as bait
   */
 
   function isColliding(a,b){

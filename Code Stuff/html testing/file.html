@@ -2,8 +2,9 @@
 <html>
 
 <head>
-  <title>html moment :P</title>
-  <LINK href="../css/styles.css" rel="stylesheet" type="text/css">
+  <title>Dylan's Games</title>
+  <link rel="icon" href="images/icon.png">
+  <link href="../css/styles.css" rel="stylesheet" type="text/css">
     <style>
       #pic{
         width:300px;
@@ -13,10 +14,9 @@
         margin-top:20px;
       }
       #htmlmoment{
-        color:brown;
+        color:coral;
         font-size: 40px;
-        margin-left: 800px;
-        
+        text-align:center;
       }
       #gameName{
         color:rebeccapurple;
@@ -24,13 +24,19 @@
         font-family: Georgia, 'Times New Roman', Times, serif;
         margin-left:100px;
       }
+      #clickOnImage{
+        text-align:center;
+      }
+      #bg{
+        background-color:lightslategray;
+      }
       /* Three image containers (use 25% for four, and 50% for two, etc) */
       .column {
         float: left;
-        width: 30%;
+        margin-left:200px;
+        width: 33.3%;
         padding: 5px;
       }
-
       /* Clear floats after image containers */
       .row::after {
         content: "";
@@ -41,9 +47,9 @@
 </head>
 
 <body>
+  <div id="bg">
   <p id="htmlmoment">Dylan's Games</p>
-  <h2>*click on the image to play the game*<br><br></h2>
-
+  <h2 id="clickOnImage">*click on the image to play the game*<br><br></h2>
   <div class = "row">
     <div class="column">
       <a href="html/stacc.html"><img src="images/stackgame.png" alt="stackgame" id="pic"></a>
