@@ -1,3 +1,0 @@
-user: dylanlee2
-
-pass: Welcome4321

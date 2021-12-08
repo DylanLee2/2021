@@ -1,5 +1,0 @@
-user: ddllee19
-
-pass: publicstaticv0idmain
-
-email: leedylan009@gmail.com
